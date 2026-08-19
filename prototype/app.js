@@ -619,17 +619,17 @@ function storeView(prefill) {
           18 ago 2026 · 17:42
         </div>
       </div>
-      <div class="lbl" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#c4784a;margin-bottom:8px">Código</div>
+      <div class="lbl" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--copper);margin-bottom:8px">Código</div>
       <input class="pos-input" id="pos-code" placeholder="RG-····-····" value="${code}" autocomplete="off" />
       <div class="flex mt-sm">
         <button class="btn btn-copper" id="pos-lookup">Consultar saldo</button>
-        <button class="btn btn-ghost" id="pos-demo" style="color:#efe6d6;border-color:#4a4038">Usar ${last}</button>
+        <button class="btn btn-ghost" id="pos-demo">Usar ${last}</button>
       </div>
-      <p class="mt muted" style="color:#8a8076;font-size:13px">Prism responde el saldo en vivo. La caja no crea cards: solo consulta y redime.</p>
-      ${card ? storeCard(card) : (code && !card ? `<p class="mt" style="color:#e8b4b4">Código no encontrado en el prototipo. Probá ${last}.</p>` : '')}
+      <p class="mt muted" style="font-size:13px">Prism responde el saldo en vivo. La caja no crea cards: solo consulta y redime.</p>
+      ${card ? storeCard(card) : (code && !card ? `<p class="mt" style="color:var(--danger)">Código no encontrado en el prototipo. Probá ${last}.</p>` : '')}
     </div>
     <div class="pos-right">
-      ${card ? storeRedeem(card) : `<div class="pos-card"><div class="lbl">Esperando card</div><p style="color:#b7aa9c;margin-top:10px;font-size:14px">Ingresá un código o usá la última emitida en la demo. Sugerido: <b style="color:#efe6d6">RG-4821-K7MP</b> (Luis Cedeño · Copa · US$ 25.00).</p></div>`}
+      ${card ? storeRedeem(card) : `<div class="pos-card"><div class="lbl">Esperando card</div><p class="muted" style="margin-top:10px;font-size:14px">Ingresá un código o usá la última emitida en la demo. Sugerido: <b>RG-4821-K7MP</b> (Luis Cedeño · Copa · US$ 25.00).</p></div>`}
     </div>
   </div>`;
 }
@@ -639,18 +639,18 @@ function storeCard(card) {
   return `<div class="pos-card mt">
     <div class="lbl">Saldo disponible</div>
     <div class="amt">${money(card.balance)}</div>
-    <div style="color:#d7cbbd;font-size:14px">${card.holder} · ${c ? c.name : ''}</div>
-    <div class="mt-sm" style="font-size:12px;letter-spacing:.12em;color:#c4784a">${card.code} · original ${money(card.original)}</div>
+    <div class="muted" style="font-size:14px">${card.holder} · ${c ? c.name : ''}</div>
+    <div class="mt-sm" style="font-size:12px;letter-spacing:.12em;color:var(--copper)">${card.code} · original ${money(card.original)}</div>
   </div>`;
 }
 
 function storeRedeem(card) {
   if (card.balance <= 0) {
-    return `<div class="pos-card"><div class="lbl">Card agotada</div><p style="margin-top:10px;color:#d7cbbd">Saldo US$ 0.00. No hay nada para redimir.</p><a class="btn mt" href="#/tienda" style="background:#efe6d6;color:#161210;border:0">Nueva consulta</a></div>`;
+    return `<div class="pos-card"><div class="lbl">Card agotada</div><p class="muted" style="margin-top:10px">Saldo US$ 0.00. No hay nada para redimir.</p><a class="btn mt" href="#/tienda">Nueva consulta</a></div>`;
   }
   const amt = posAmount || '';
   return `<div>
-    <div class="lbl" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#c4784a">Monto a redimir</div>
+    <div class="lbl" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--copper)">Monto a redimir</div>
     <div class="serif" style="font-size:44px;margin:4px 0 12px">${amt ? money(amt) : 'US$ 0.00'}</div>
     <div class="keys" id="keys">
       ${[1,2,3,4,5,6,7,8,9].map((n) => `<button class="key" data-k="${n}">${n}</button>`).join('')}
@@ -661,7 +661,7 @@ function storeRedeem(card) {
       <button class="key" data-k="18">18</button>
       <button class="key ok" data-k="go">Redimir</button>
     </div>
-    <p class="mt" style="color:#8a8076;font-size:12px">Atajo de demo: 18 deja saldo residual (redención parcial).</p>
+    <p class="mt muted" style="font-size:12px">Atajo de demo: 18 deja saldo residual (redención parcial).</p>
   </div>`;
 }
 
@@ -670,7 +670,7 @@ function ticketView(txId) {
   const card = tx && db.cards.find((c) => c.code === tx.code);
   if (!tx || !card) return storeView();
   return `${protoStrip('Ticket')}
-  <div style="min-height:calc(100vh - 31px);background:var(--night);padding:40px 20px;display:flex;justify-content:center">
+  <div style="min-height:calc(100vh - 31px);background:var(--paper);padding:40px 20px;display:flex;justify-content:center">
     <div style="width:340px">
       <div class="ticket">
         <div style="text-align:center;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--copper)">Sportline · Multiplaza Pacífico</div>
@@ -689,7 +689,7 @@ function ticketView(txId) {
       </div>
       <div class="flex mt" style="justify-content:center">
         <a class="btn btn-copper" href="#/tienda">Nueva consulta</a>
-        <a class="btn btn-ghost" href="#/" style="color:#efe6d6;border-color:#4a4038">Cerrar demo</a>
+        <a class="btn btn-ghost" href="#/">Cerrar demo</a>
       </div>
     </div>
   </div>`;
